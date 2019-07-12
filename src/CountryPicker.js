@@ -294,7 +294,7 @@ export default class CountryPicker extends Component {
       position = this.listHeight - this.visibleListHeight
     }
 
-    this._flatList.scrollToIndex({ index });
+    this._flatList.scrollToIndex({ animated: false, index, viewPosition: 0.5 });
   }
 
   handleFilterChange = value => {
@@ -382,6 +382,7 @@ export default class CountryPicker extends Component {
   }
 
   render() {
+    let itemHeight = getHeightPercent(7)
     return (
       <View style={styles.container}>
         <TouchableOpacity
@@ -430,6 +431,9 @@ export default class CountryPicker extends Component {
                   data={this.state.flatListMap}
                   ref={flatList => (this._flatList = flatList)}
                   initialNumToRender={30}
+                  getItemLayout={(data, index) => (
+                    {length: itemHeight, offset: itemHeight * index, index}
+                  )}
                   renderItem={country => this.renderCountry(country.item.key)}
                   keyExtractor={(item) => item.key}
                 />
